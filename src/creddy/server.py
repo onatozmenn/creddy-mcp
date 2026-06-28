@@ -156,8 +156,8 @@ def build_server(
 
         `series`: one or more EVDS codes separated by '-' or ',', e.g.
         'TP.DK.USD.A.YTL'. `start_date`/`end_date`: 'dd-MM-yyyy' (default: last year).
-        Requires CREDDY_TCMB_API_KEY. Note: TCMB is migrating EVDS2->EVDS3; if the
-        public REST endpoint has moved, set CREDDY_TCMB_BASE_URL (or use tcmb_indicators).
+        Requires CREDDY_TCMB_API_KEY (free at evds3.tcmb.gov.tr). Targets the EVDS3
+        public REST endpoint; override CREDDY_TCMB_BASE_URL only if it changes again.
         """
         try:
             items, codes = fetch_series(settings, series, start_date or None, end_date or None)

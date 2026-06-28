@@ -13,13 +13,13 @@ def test_split_codes_handles_dash_and_comma():
 
 def test_build_url():
     url = build_url(
-        "https://evds2.tcmb.gov.tr/service/evds/",
+        "https://evds3.tcmb.gov.tr/igmevdsms-dis/",
         ["TP.DK.USD.A", "TP.DK.EUR.A"],
         "01-01-2024",
         "01-01-2025",
     )
     assert url == (
-        "https://evds2.tcmb.gov.tr/service/evds/series=TP.DK.USD.A-TP.DK.EUR.A"
+        "https://evds3.tcmb.gov.tr/igmevdsms-dis/series=TP.DK.USD.A-TP.DK.EUR.A"
         "&startDate=01-01-2024&endDate=01-01-2025&type=json"
     )
 

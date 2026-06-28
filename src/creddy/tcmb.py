@@ -79,7 +79,12 @@ def fetch_series(
             "appears unavailable; use the tcmb_indicators tool or set CREDDY_TCMB_BASE_URL."
         )
 
-    return response.json().get("items", []), codes
+    items = response.json().get("items", [])
+    # EVDS returns a redundant UNIXTIME column (a nested {"$numberLong": ...}); the
+    # human-readable Tarih column already carries the date, so drop it.
+    for item in items:
+        item.pop("UNIXTIME", None)
+    return items, codes
 
 
 def fetch_indicators(settings: Settings) -> list[dict]:

@@ -249,12 +249,12 @@ Dockerfile, docker-entrypoint.sh   # container image for hosting
 - Secrets (DB password, TCMB key) come from the environment, never hard-coded.
 - The UCI data is public and anonymized — no real PII.
 
-## Honest note on `tcmb_series`
+## Note on `tcmb_series`
 
-TCMB is migrating EVDS2 → EVDS3. The live `tcmb_indicators` and key-authenticated `tcmb_search`
-tools work today; the documented key-based public REST service that `tcmb_series` targets is
-currently offline behind that migration. Set `CREDDY_TCMB_BASE_URL` to the current endpoint once
-it is republished.
+TCMB migrated EVDS2 → EVDS3. All three TCMB tools now target the EVDS3 service: `tcmb_indicators`
+(no key) plus the key-authenticated `tcmb_search` and `tcmb_series`, which use the EVDS3
+`igmevdsms-dis` REST endpoint. `tcmb_series` needs a valid `CREDDY_TCMB_API_KEY`; override
+`CREDDY_TCMB_BASE_URL` only if the endpoint changes again.
 
 ## License
 

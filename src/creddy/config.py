@@ -31,9 +31,9 @@ class Settings(BaseSettings):
 
     # TCMB EVDS (live Turkish central-bank data). Get a free key at evds3.tcmb.gov.tr.
     tcmb_api_key: str = ""
-    # Documented public REST web service base (key-authenticated). TCMB is migrating
-    # EVDS2 -> EVDS3; override this when the current public endpoint is published.
-    tcmb_base_url: str = "https://evds2.tcmb.gov.tr/service/evds"
+    # Key-authenticated public REST web service base. TCMB migrated EVDS2 -> EVDS3;
+    # the data endpoint now lives under the EVDS3 `igmevdsms-dis` path.
+    tcmb_base_url: str = "https://evds3.tcmb.gov.tr/igmevdsms-dis"
     # EVDS3 site, used by the live `tcmb_indicators` tool (no key required).
     tcmb_site_url: str = "https://evds3.tcmb.gov.tr"
 
