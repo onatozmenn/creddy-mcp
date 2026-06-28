@@ -10,7 +10,7 @@ pinned: false
 
 # Creddy
 
-[![Smithery](https://img.shields.io/badge/Smithery-listed-ea580c)](https://smithery.ai/server/onatozmenn/creddy-mcp)
+[![Smithery](https://img.shields.io/badge/Smithery-listed-ea580c)](https://smithery.ai/server/onatozmen44/creddy-mcp)
 [![GitHub](https://img.shields.io/badge/GitHub-source-181717?logo=github)](https://github.com/onatozmenn/creddy-mcp)
 [![License: MIT](https://img.shields.io/badge/license-MIT-22c55e)](LICENSE)
 [![MCP](https://img.shields.io/badge/MCP-stdio%20%7C%20HTTP-2563eb)](https://modelcontextprotocol.io)
@@ -108,7 +108,7 @@ On Pro / Max / Team (and Free — one connector) you can connect a remote MCP di
 ### Smithery (one command)
 
 ```
-npx -y @smithery/cli install onatozmenn/creddy-mcp --client claude
+npx -y @smithery/cli install onatozmen44/creddy-mcp --client claude
 ```
 
 ### VS Code / Cursor
