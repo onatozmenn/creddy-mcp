@@ -1,0 +1,22 @@
+# Local Postgres for the Creddy.
+# Start with:  docker compose up -d
+services:
+  db:
+    image: postgres:16
+    container_name: creddy-postgres
+    environment:
+      POSTGRES_DB: creddy
+      POSTGRES_USER: creddy
+      POSTGRES_PASSWORD: creddy
+    ports:
+      - "5432:5432"
+    volumes:
+      - creddy_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U creddy -d creddy"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  creddy_pgdata:

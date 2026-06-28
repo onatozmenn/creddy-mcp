@@ -1,0 +1,8 @@
+# Normalize text files (LF in the repository).
+* text=auto
+
+# Shell scripts must stay LF (Linux containers / Hugging Face Spaces).
+*.sh text eol=lf
+
+# Windows PowerShell scripts stay CRLF.
+*.ps1 text eol=crlf

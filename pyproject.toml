@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "creddy"
+version = "0.1.0"
+description = "An MCP server that turns natural language into safe, read-only SQL over real credit-default data, plus a live TCMB EVDS tool for Turkish financial series."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "payMCP" }]
+keywords = ["mcp", "fintech", "credit-risk", "text-to-sql", "tcmb", "evds", "claude"]
+dependencies = [
+  "mcp>=1.2.0",
+  "psycopg[binary]>=3.1",
+  "sqlglot>=25.0",
+  "pydantic-settings>=2.1",
+  "ucimlrepo>=0.0.7",
+  "httpx>=0.27",
+  "scikit-learn>=1.3",
+  "pandas>=2.0",
+  "joblib>=1.3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+creddy = "creddy.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/creddy"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

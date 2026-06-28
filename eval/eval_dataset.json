@@ -1,0 +1,115 @@
+[
+  {
+    "id": "q01_total_clients",
+    "question": "Veritabanında kaç müşteri var?",
+    "sql": "SELECT count(*) AS client_count FROM credit_clients;",
+    "checks": [
+      { "type": "columns", "value": ["client_count"] },
+      { "type": "min_rows", "value": 1 }
+    ]
+  },
+  {
+    "id": "q02_overall_default_rate",
+    "question": "Genel temerrüt oranı nedir?",
+    "sql": "SELECT round(avg(CASE WHEN defaulted THEN 1 ELSE 0 END)::numeric, 4) AS default_rate FROM credit_clients;",
+    "checks": [
+      { "type": "columns", "value": ["default_rate"] },
+      { "type": "value_between", "column": "default_rate", "min": 0, "max": 1 }
+    ]
+  },
+  {
+    "id": "q03_default_rate_by_education",
+    "question": "Eğitim düzeyine göre temerrüt oranı nedir?",
+    "sql": "SELECT education, round(avg(CASE WHEN defaulted THEN 1 ELSE 0 END)::numeric, 4) AS default_rate, count(*) AS n FROM credit_clients GROUP BY education ORDER BY default_rate DESC;",
+    "checks": [
+      { "type": "columns", "value": ["education", "default_rate", "n"] },
+      { "type": "min_rows", "value": 1 },
+      { "type": "value_between", "column": "default_rate", "min": 0, "max": 1 }
+    ]
+  },
+  {
+    "id": "q04_default_rate_by_age_bucket",
+    "question": "Yaş gruplarına göre temerrüt oranı nasıl değişiyor?",
+    "sql": "SELECT width_bucket(age, 20, 80, 6) AS age_bucket, round(avg(CASE WHEN defaulted THEN 1 ELSE 0 END)::numeric, 4) AS default_rate, count(*) AS n FROM credit_clients GROUP BY age_bucket ORDER BY age_bucket;",
+    "checks": [
+      { "type": "columns", "value": ["age_bucket", "default_rate", "n"] },
+      { "type": "min_rows", "value": 2 },
+      { "type": "value_between", "column": "default_rate", "min": 0, "max": 1 }
+    ]
+  },
+  {
+    "id": "q05_default_rate_by_limit_bucket",
+    "question": "Kredi limiti dilimine göre temerrüt oranı nedir?",
+    "sql": "SELECT width_bucket(credit_limit, 0, 1000000, 10) AS limit_bucket, round(avg(CASE WHEN defaulted THEN 1 ELSE 0 END)::numeric, 4) AS default_rate, count(*) AS n FROM credit_clients GROUP BY limit_bucket ORDER BY limit_bucket;",
+    "checks": [
+      { "type": "columns", "value": ["limit_bucket", "default_rate", "n"] },
+      { "type": "min_rows", "value": 2 },
+      { "type": "value_between", "column": "default_rate", "min": 0, "max": 1 }
+    ]
+  },
+  {
+    "id": "q06_default_rate_by_sex",
+    "question": "Cinsiyete göre temerrüt oranı nedir?",
+    "sql": "SELECT sex, round(avg(CASE WHEN defaulted THEN 1 ELSE 0 END)::numeric, 4) AS default_rate, count(*) AS n FROM credit_clients GROUP BY sex ORDER BY sex;",
+    "checks": [
+      { "type": "columns", "value": ["sex", "default_rate", "n"] },
+      { "type": "min_rows", "value": 1 },
+      { "type": "value_between", "column": "default_rate", "min": 0, "max": 1 }
+    ]
+  },
+  {
+    "id": "q07_default_rate_by_last_delay",
+    "question": "Eylül ayındaki gecikme durumuna göre temerrüt oranı nedir?",
+    "sql": "SELECT pay_sep, round(avg(CASE WHEN defaulted THEN 1 ELSE 0 END)::numeric, 4) AS default_rate, count(*) AS n FROM credit_clients GROUP BY pay_sep ORDER BY pay_sep;",
+    "checks": [
+      { "type": "columns", "value": ["pay_sep", "default_rate", "n"] },
+      { "type": "min_rows", "value": 3 },
+      { "type": "value_between", "column": "default_rate", "min": 0, "max": 1 }
+    ]
+  },
+  {
+    "id": "q08_avg_limit_by_marriage",
+    "question": "Medeni duruma göre ortalama kredi limiti nedir?",
+    "sql": "SELECT marriage, round(avg(credit_limit), 2) AS avg_limit, count(*) AS n FROM credit_clients GROUP BY marriage ORDER BY avg_limit DESC;",
+    "checks": [
+      { "type": "columns", "value": ["marriage", "avg_limit", "n"] },
+      { "type": "min_rows", "value": 1 }
+    ]
+  },
+  {
+    "id": "q09_avg_age_by_default",
+    "question": "Temerrüde düşenlerle düşmeyenlerin ortalama yaşı nedir?",
+    "sql": "SELECT defaulted, round(avg(age), 1) AS avg_age, count(*) AS n FROM credit_clients GROUP BY defaulted ORDER BY defaulted;",
+    "checks": [
+      { "type": "columns", "value": ["defaulted", "avg_age", "n"] },
+      { "type": "min_rows", "value": 2 }
+    ]
+  },
+  {
+    "id": "q10_top_limit_clients",
+    "question": "En yüksek kredi limitli 10 müşteri kimler?",
+    "sql": "SELECT client_id, credit_limit, age, education FROM credit_clients ORDER BY credit_limit DESC LIMIT 10;",
+    "checks": [
+      { "type": "columns", "value": ["client_id", "credit_limit", "age", "education"] },
+      { "type": "min_rows", "value": 1 }
+    ]
+  },
+  {
+    "id": "q11_avg_september_bill",
+    "question": "Ortalama eylül ekstre borcu nedir?",
+    "sql": "SELECT round(avg(bill_sep), 2) AS avg_bill_sep FROM credit_clients;",
+    "checks": [
+      { "type": "columns", "value": ["avg_bill_sep"] },
+      { "type": "min_rows", "value": 1 }
+    ]
+  },
+  {
+    "id": "q12_delayed_share",
+    "question": "Eylülde en az 1 ay gecikmesi olan müşterilerin oranı nedir?",
+    "sql": "SELECT round(avg(CASE WHEN pay_sep >= 1 THEN 1 ELSE 0 END)::numeric, 4) AS delayed_share FROM credit_clients;",
+    "checks": [
+      { "type": "columns", "value": ["delayed_share"] },
+      { "type": "value_between", "column": "delayed_share", "min": 0, "max": 1 }
+    ]
+  }
+]

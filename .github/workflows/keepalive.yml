@@ -1,0 +1,33 @@
+name: keepalive
+
+# Keeps a free Hugging Face Space awake (and doubles as an uptime check) by
+# sending a real MCP "initialize" request on a schedule. No server needed.
+#
+# Setup: add a repository secret MCP_URL = https://<user>-<space>.hf.space/mcp
+# (Settings -> Secrets and variables -> Actions -> New repository secret).
+
+on:
+  schedule:
+    - cron: "*/30 * * * *" # every 30 minutes
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Initialize MCP (keep-alive + health check)
+        env:
+          MCP_URL: ${{ secrets.MCP_URL }}
+        run: |
+          if [ -z "$MCP_URL" ]; then
+            echo "MCP_URL secret is not set; skipping."
+            exit 0
+          fi
+          code=$(curl -sS --max-time 60 -o /tmp/out -w "%{http_code}" -X POST "$MCP_URL" \
+            -H "Content-Type: application/json" \
+            -H "Accept: application/json, text/event-stream" \
+            -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"keepalive","version":"0"}}}')
+          echo "HTTP $code"
+          head -c 300 /tmp/out || true
+          echo
+          test "$code" = "200"

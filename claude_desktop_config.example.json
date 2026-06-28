@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "creddy": {
+      "command": "C:\\Users\\onat\\OneDrive\\Desktop\\payMCP\\.venv\\Scripts\\python.exe",
+      "args": ["-m", "creddy", "serve"],
+      "env": {
+        "CREDDY_DB_HOST": "localhost",
+        "CREDDY_DB_PORT": "5432",
+        "CREDDY_DB_NAME": "creddy",
+        "CREDDY_DB_USER": "creddy",
+        "CREDDY_DB_PASSWORD": "creddy",
+        "CREDDY_QUERY_ROW_LIMIT": "1000",
+        "CREDDY_TCMB_API_KEY": "PUT-YOUR-EVDS-KEY-HERE"
+      }
+    }
+  }
+}
