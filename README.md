@@ -8,6 +8,10 @@ app_port: 7860
 pinned: false
 ---
 
+<p align="center">
+  <img src="creedymcplogo.png" alt="Creddy logo" width="160" />
+</p>
+
 # Creddy
 
 [![Smithery](https://img.shields.io/badge/Smithery-listed-ea580c)](https://smithery.ai/server/onatozmen44/creddy-mcp)
